@@ -1,0 +1,17 @@
+# Ignore model checkpoints
+*.pt
+*.pth
+DIR/
+
+# Ignore datasets
+data/
+*.nii.gz
+*.mat
+
+# Ignore logs
+logs/
+*.log
+wandb/
+
+# Ignore VSCode settings
+.vscode/

@@ -1,0 +1,26 @@
+system:
+  project: PROJ_256
+  exp_name: Nips_MAE_B_256
+  n_threads: 8
+  ckpt_dir: 'DIR'
+  seed: 0
+
+train: 
+  niter: 200
+  niter_decay: 100
+  type: 'mae'
+  cls_num: 2
+
+data: 
+  mae_root: '/labs/wanglab/projects/NeurIPS-Clean-T1T2'
+  mae_domain: '/home/xzhon54/xinliuz/MAPSeg2d/cfg/example_yaml/mae_domain.txt'
+  mae_test_list: '/home/xzhon54/xinliuz/MAPSeg2d/cfg/example_yaml/sub_list_final.csv'
+  patch_size:
+  - 256
+  - 256
+  - 256
+  nips: True
+
+
+model:
+  load_pretrain: False
