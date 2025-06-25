@@ -195,8 +195,8 @@ class MAE_CNN(nn.Module):
         loss_c_gp = self.consist_loss(f_gp_1, f_gp_2)
 
         # --- Aggregate Losses ---
-        local_loss  = local_loss + local_loss2
-        global_loss = global_loss + global_loss2
+        local_loss = torch.true_divide(local_loss + local_loss2, 2)
+        global_loss = torch.true_divide(global_loss + global_loss2, 2)
 
         return (
             local_loss, 

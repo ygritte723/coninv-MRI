@@ -145,6 +145,8 @@ class Masked_seg(nn.Module):
                 upsample = nn.Upsample(
                     size=global_latent_1.shape[2:], mode='bilinear', align_corners=True)
                 global_latent_1_zoomed = upsample(global_latent_1_zoomed)
+                
+                
 
                 pred_1 = self.seg_decoder(torch.concat(
                     [local_latent_1, global_latent_1_zoomed], dim=1))

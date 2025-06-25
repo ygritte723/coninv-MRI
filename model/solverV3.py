@@ -13,6 +13,7 @@ from collections import OrderedDict
 import torchio as tio
 import nibabel as nib
 import random
+from sklearn.metrics import confusion_matrix
 
 model_zoo = {
     'mae': MAE_CNN,
@@ -239,6 +240,10 @@ class mpl_trainer(nn.Module):
         self.tgt_cos_reg = []
         self.val_score = []
         self.val_dice = []
+        self.val_iou = []
+        self.val_acc = []
+        self.val_nsd = []
+        self.val_hd = []
         self.cumulative_no_improve = []
         self.total_step = 0
 
@@ -598,6 +603,7 @@ class mpl_trainer(nn.Module):
                 nib.Nifti1Header.quaternion_threshold = -1e-06
 
             cur_dsc = 0
+            cur_iou, cur_acc, cur_nsd, cur_hd = 0, 0, 0, 0
             for val_file in val_lst:
                 val_scan = nib.load(os.path.join(
                     self.cfg.data.val_img, val_file))
@@ -631,6 +637,24 @@ class mpl_trainer(nn.Module):
                 for cls_idx in range(1, self.cfg.train.cls_num):
                     ind_dsc.append(util.cal_dice(tmp_pred, tmp_label, cls_idx))
                 cur_dsc += np.mean(ind_dsc)
+                true_flat = tmp_label.flatten()
+                pred_flat = tmp_pred.flatten()
+
+                cm = confusion_matrix(true_flat, pred_flat, labels=list(range(self.cfg.train.cls_num)))
+                TP = np.diag(cm)
+                FP = cm.sum(axis=0) - TP
+                FN = cm.sum(axis=1) - TP
+                TN = cm.sum() - (FP + FN + TP)
+
+                iou = TP[1] / (TP[1] + FP[1] + FN[1] + 1e-8)
+                acc = (TP[1] + TN[1]) / cm.sum()
+
+                nsd, hd = util.surface_distance(tmp_label == 1, tmp_pred == 1)
+
+                cur_iou += iou
+                cur_acc += acc
+                cur_nsd += 0 if np.isnan(nsd) else nsd
+                cur_hd += 0 if np.isnan(hd) else hd
 
                 # save the prediciton and GT
                 if self.cfg.system.save_nii:
@@ -643,7 +667,16 @@ class mpl_trainer(nn.Module):
                         self.val_dir, str(epoch) + '_' + val_file.split('.')[0] + '_pred.nii.gz'))
 
             cur_dsc /= len(val_lst)
+            cur_iou /= len(val_lst)
+            cur_acc /= len(val_lst)
+            cur_nsd /= len(val_lst)
+            cur_hd /= len(val_lst)
+
             self.val_dice.append(cur_dsc)
+            self.val_iou.append(cur_iou)
+            self.val_acc.append(cur_acc)
+            self.val_nsd.append(cur_nsd)
+            self.val_hd.append(cur_hd)
 
             tmp_val_score = cur_dsc * 1 - self.tgt_pse_seg_loss[-1]*0.5
             torch.cuda.empty_cache()
@@ -677,3 +710,4 @@ def get_solver(cfg):
     assert cfg.train.type in solver_zoo.keys(), 'Solver type {} not supported'.format(
         cfg.train.type)
     return solver_zoo[cfg.train.type](cfg)
+

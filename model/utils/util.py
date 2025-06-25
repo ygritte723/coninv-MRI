@@ -7,6 +7,8 @@ import tarfile
 import torch.nn.functional as F
 import nibabel as nib
 from datetime import datetime
+from scipy.ndimage import distance_transform_edt
+
 # Converts a Tensor into a Numpy array
 # |imtype|: the desired type of the converted numpy array
 
@@ -265,3 +267,22 @@ def patch_slicer(scan, mask, patch_size, stride, remove_bg=True, test=False, ori
         return scan_patches, mask_patches
     else:
         return scan_patches, file_path, patch_idx
+
+
+def surface_distance(mask_gt, mask_pred, spacing=1.0):
+    mask_gt = mask_gt.astype(bool)
+    mask_pred = mask_pred.astype(bool)
+
+    if not np.any(mask_gt) or not np.any(mask_pred):
+        return np.nan, np.nan
+
+    edt_gt = distance_transform_edt(~mask_gt)
+    edt_pred = distance_transform_edt(~mask_pred)
+
+    sds_gt = edt_pred[mask_gt]
+    sds_pred = edt_gt[mask_pred]
+
+    hd = max(sds_gt.max(), sds_pred.max())
+    nsd_thresh = 1.0
+    nsd = (np.sum(sds_pred < nsd_thresh) + np.sum(sds_gt < nsd_thresh)) / (sds_pred.size + sds_gt.size)
+    return nsd, hd

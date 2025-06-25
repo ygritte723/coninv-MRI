@@ -26,7 +26,8 @@ def set_random_seed(seed):
     random.seed(seed)
 
 # sys.argv = ['trainV3.py', '--config', '/home/xzhon54/xinliuz/MAPSeg2d/cfg/nips/nips_mae_test.yaml']
-sys.argv = ['trainV3.py', '--config', '/home/xzhon54/xinliuz/MAPSeg2d/cfg/s2s2/placenta_mae.yaml']
+# sys.argv = ['trainV3.py', '--config', '/home/xzhon54/xinliuz/MAPSeg2d/cfg/s2s2/placenta_mpl_val.yaml']
+sys.argv = ['trainV3.py', '--config', '/home/xzhon54/xinliuz/MAPSeg2d/cfg/s2s2/mae_128.yaml']
 parser = argparse.ArgumentParser(description='Setting config file')
 parser.add_argument('--config', type=str, required=True,
                     help='path to the config yaml file')
@@ -97,7 +98,7 @@ if __name__ == '__main__':
     start_epoch = 1 + train_solver._get_epoch()
 
     # save the current code
-    gen_code_archive(ckpt_fld)
+    # gen_code_archive(ckpt_fld)
     print('Start training with this config:')
     print(cfg)
     for epoch in range(start_epoch, cfg.train.niter + cfg.train.niter_decay+1):
@@ -130,8 +131,16 @@ if __name__ == '__main__':
             if cfg.system.wandb:
                 wandb.log({'validation dice': train_solver.val_dice[-1],
                            'validation score': train_solver.val_score[-1]})
+                wandb.log({'validation iou': train_solver.val_iou[-1],
+                           'validation acc': train_solver.val_acc[-1],
+                           'validation nsd': train_solver.val_nsd[-1],
+                           'validation hd': train_solver.val_hd[-1]})
             print(
                 f"Epoch: {epoch}, Validation Dice: {train_solver.val_dice[-1]}, Validation score: {train_solver.val_score[-1]}, target pseudo loss: {train_solver.tgt_pse_seg_loss[-1]}")
+            print(f"Validation IoU: {train_solver.val_iou[-1]}, "
+                  f"Validation Acc: {train_solver.val_acc[-1]}, "
+                  f"Validation NSD: {train_solver.val_nsd[-1]}, "
+                  f"Validation HD: {train_solver.val_hd[-1]}")
 
             if save_best:
                 torch.save(train_solver.model.state_dict(),

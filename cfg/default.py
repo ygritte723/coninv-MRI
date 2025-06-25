@@ -61,7 +61,7 @@ _c.train.test_time = False
 _c.train.patience = 50
 
 _c.train.s2s2 = False
-_c.train.semantic_weight = 1
+_c.train.semantic_weight = 1.0
 
 _c.data = CN()
 _c.data.nips = False
@@ -79,6 +79,7 @@ _c.data.aug = True
 _c.data.aug_prob = 0.35
 # size of 3D patch
 _c.data.patch_size = (96, 96, 96)
+_c.data.image_size = (256, 256)  # size of 2D image for MAE training
 # path of validation image (source domain) during DA
 _c.data.val_img = 'default'
 # path of validation label (source domain) during DA, it should have same file name with val_image

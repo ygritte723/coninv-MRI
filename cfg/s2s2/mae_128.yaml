@@ -1,6 +1,6 @@
 system:
   project: S2S2
-  exp_name: Plac_MAE_B
+  exp_name: Plac_MAE_B_128
   n_threads: 8
   ckpt_dir: 'DIR'
   seed: 0
@@ -17,9 +17,13 @@ train:
 data: 
   mae_root: '/home/xzhon54/wangdata/data/upload_here/Xinliu/placenta_multiecho_stacks/maeB'
   patch_size:
+  - 128
+  - 128
+  - 128
+  image_size:
   - 256
   - 256
-  - 256
+
 
 
 model:
