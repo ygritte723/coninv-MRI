@@ -1,4 +1,4 @@
-# <p align="center">  MindDiffuser  </p> 
+
 This is the official code for the paper "Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI"[**MICCAI PIPPI Workshop 2025**] ([https://dl.acm.org/doi/10.1145/3581783.3613832](https://arxiv.org/abs/2505.24739)) 
 
 ## <p align="center">  Schematic diagram of MindDiffuser  </p> Ω
