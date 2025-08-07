@@ -1,8 +1,8 @@
 # <p align="center"> Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI </p> #
-This is the official code for the paper "Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI"[**MICCAI PIPPI Workshop 2025**] ([https://dl.acm.org/doi/10.1145/3581783.3613832](https://arxiv.org/abs/2505.24739)) 
+This is the official code for the paper "Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI"[**MICCAI PIPPI Workshop 2025**] ([https://arxiv.org/abs/2505.24739](https://arxiv.org/abs/2505.24739)) 
 
-## <p align="center">  Schematic diagram of MindDiffuser  </p> ##
-![]([https://github.com/ReedOnePeck/MindDiffuser](https://github.com/ygritte723/coninv-MRI/blob/main/Images/Picture2.png)<br>
+## <p align="center">  Schematic diagram  </p> ##
+![]([https://github.com/ygritte723/coninv-MRI](https://github.com/ygritte723/coninv-MRI/blob/master/images/semantic_mae_architecture.png)<br>
 - (a) Decoders are trained to fit fMRI with averaged CLIP text embeddings 𝑐, CLIP image feature 𝑍𝑖𝐶𝐿𝐼𝑃, and VQ-VAE latent feature 𝑧.
 - (b) The two-stage image reconstruction process. In stage 1, an initial reconstructed image is generated using the decoded CLIP text feature 𝑐 and VQ-VAE latent feature 𝑧. In stage 2, the decoded CLIP image feature is used as a constraint to iteratively adjust 𝑐 and 𝑧 until the final reconstruction result matches the original image in terms of both semantic and structure.
 
