@@ -1,34 +1,31 @@
-# <p align="center"> Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI </p> #
-This is the official code for the paper "Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI"[**MICCAI PIPPI Workshop 2025**] ([https://arxiv.org/abs/2505.24739](https://arxiv.org/abs/2505.24739)) 
+# <p align="center">Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI</p>
 
-## <p align="center">  Schematic diagram  </p> ##
+This is the official implementation of the paper  
+**"Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI"**  
+presented at the [**MICCAI PIPPI Workshop 2025**](https://arxiv.org/abs/2505.24739).
+
+---
+
+## <p align="center"> Schematic Overview</p>
+
 <p float="left">
   <img src="https://github.com/ygritte723/coninv-MRI/blob/master/images/semantic_mae_architecture.png" width="40%" />
   <img src="https://github.com/ygritte723/coninv-MRI/blob/master/images/semantic_mpl_architecture.png" width="50%" />
 </p>
-- (a) Decoders are trained to fit fMRI with averaged CLIP text embeddings 𝑐, CLIP image feature 𝑍𝑖𝐶𝐿𝐼𝑃, and VQ-VAE latent feature 𝑧.
-- (b) The two-stage image reconstruction process. In stage 1, an initial reconstructed image is generated using the decoded CLIP text feature 𝑐 and VQ-VAE latent feature 𝑧. In stage 2, the decoded CLIP image feature is used as a constraint to iteratively adjust 𝑐 and 𝑧 until the final reconstruction result matches the original image in terms of both semantic and structure.
 
-## <p align="center">  Algorithm diagram of MindDiffuser  </p> 
-![](https://github.com/ReedOnePeck/MindDiffuser/blob/main/Images/A.png)
+- **(a) MAE Pretraining:** Multi-echo slices are masked and encoded using a shared encoder. The training objective includes a reconstruction loss ($\mathcal{L}_{\text{MSE}}$), semantic consistency ($\mathcal{L}_{\text{SC}}$), and global-local collaboration alignment ($\mathcal{L}_{\text{Cos}}$).
 
-## <p align="center">  A brief comparison of image reconstruction results </p> 
-![](https://github.com/ReedOnePeck/MindDiffuser/blob/main/Images/plane_00.png)
+- **(b) MPL Training:** A teacher-student framework is used to leverage pseudo-labels on unlabeled target slices. The teacher model $F_\theta$ is updated via exponential moving average (EMA), while the student model $F_\phi$ is optimized using the MPL loss ($\mathcal{L}_{\text{MPL}}$).
+---
 
-## <p align="center"> Reconstruction results of MindDiffuser on multiple subjects </p>
-![](https://github.com/ReedOnePeck/MindDiffuser/blob/main/Images/four_sub_00.png)
+## <p align="center"> Segmentation Results Across Echo Times</p>
 
-## <p align="center">  Experiments  </p> 
-![](https://github.com/ReedOnePeck/MindDiffuser/blob/main/Images/1686488621334.png)
+![](https://github.com/ygritte723/coninv-MRI/blob/master/images/comparison_1.png)
 
-## <p align="center"> Interpretability analysis </p>
-![](https://github.com/ReedOnePeck/MindDiffuser/blob/main/Images/cortex_sub2_00.png)
+**Qualitative comparison of segmentation across echo times (TE1–TE8).**  
+Each row shows the input slice, model predictions (red overlay), and the ground truth.  Our method achieves consistent and accurate boundaries under varying contrast conditions.
 
-During the feature decoding process, we use L2-regularized linear regression model to automatically select voxels to fit three types
-of feature: semantic feature 𝑐, detail feature 𝑧, and structural feature 𝑍𝐶𝐿𝐼𝑃. We ultilize pycortex to project the weights of each 
-voxel in the fitted model onto the corresponding 3D coordinates in the visual cortex.
-
-
+---
 
 
 # <p> Steps to reproduce</p>
