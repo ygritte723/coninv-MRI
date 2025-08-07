@@ -52,15 +52,15 @@ pip install -r requirements.txt
 
 For training: 
     
-    ```
-    python train.py --config=YOUR_PATH_TO_YAML
-    ```
-Training procedure:
-    
+```
+python train.py --config=YOUR_PATH_TO_YAML
+```
+
 
 For inference: 
 
-   ``` python test.py # be sure to edit the test.py
+```
+python test.py # be sure to edit the test.py
 ```
 
 Parameters and data structure: 
@@ -70,12 +70,12 @@ There is a **detailed** explanation in [/cfg/default.py](https://github.com/ygri
 ## <p> Cite </p>
 Please cite our paper if you use this code in your own work:<br>
 
-@article{zhong2025contrast,
-  title={Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI},
-  author={Zhong, Xinliu and Liu, Ruiying and Nichols, Emily S and Zhang, Xuzhe and Laine, Andrew F and Duerden, Emma G and Wang, Yun},
-  journal={arXiv preprint arXiv:2505.24739},
-  year={2025}
-}
+    @article{zhong2025contrast,
+      title={Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI},
+      author={Zhong, Xinliu and Liu, Ruiying and Nichols, Emily S and Zhang, Xuzhe and Laine, Andrew F and Duerden, Emma G and Wang, Yun},
+      journal={arXiv preprint arXiv:2505.24739},
+      year={2025}
+    }
 
 
 
