@@ -31,65 +31,41 @@ Each row shows the input slice, model predictions (red overlay), and the ground 
 # <p> Steps to reproduce</p>
 
 
-
 ## <p>  Preliminaries  </p> 
-This code was developed and tested with:
 
-*  Python version 3.8.5
-*  PyTorch version 1.11.0
-*  H100 40G
-*  The conda environment defined in environment_1.yaml
+This project was developed and tested with:
 
-## <p>  Dataset downloading and preparation </p> 
-`NSD dataset` http://naturalscenesdataset.org/  <br>
-`Data preparation` https://github.com/styvesg/nsd  <br>
-- After preprocessing the NSD data, please organize the image stimuli in the training set into a .npy file with dimensions (8859, 3, 512, 512), and the image stimuli in the test set  into a .npy file with dimensions (982, 3, 512, 512), stored in ：your_folder/data/stimuli_data/. And store the fMRI data in ：your_folder/data/response_data/.
-- Download "captions_train2017.json" and "captions_val2017.json" from the official website of the COCO dataset(https://cocodataset.org/#download). Save them in the path "your_folder/data/utils_data/".
-- Run the code(https://github.com/styvesg/nsd/blob/master/data_preparation.ipynb) to obtain the textual descriptions of the stimulus images from NSD in the COCO dataset.Rename the corresponding file as "cocoID_correct.npy"  and save it in the path "your_folder/data/utils_data/".
+- Python 3.8.5  
+- PyTorch 1.11.0  
+- GPU: NVIDIA H100 (40G)  
+- Conda environment defined in `requirements.txt`
 
-![](https://github.com/ReedOnePeck/MindDiffuser/blob/main/Images/NSD.png)
+To set up the environment:
 
-## <p> Model downloading and preparation  </p>
-First, set up the conda enviroment as follows:<br>
-
-    conda env create -f environment_1.yml  # create conda env
-    conda activate MindDiffuser          # activate conda env  <br>
-- To ensure stable execution of our project, it is recommended to first create the virtual environment of Stable Diffusion v1-4 and then add the required Python packages to it. <br>
-- You need to download the checkpoint file :sd-v1-4.ckpt and the config file :v1-inference.yaml for Stable Diffusion v1-4 from Hugging Face. Store them in the folders :/yourfolder/data/pretrained_models/checkpoint/: and :/yourfolder/data/pretrained_models/config/ respectively. <br>
-- After downloading the "v1-inference.yaml" file, change the value of "max_length" to 15 in line 72.
+```bash
+cd archive/plac_seg_proj/code
+conda create -n plac_seg python=3.8
+conda activate plac_seg
+pip install -r requirements.txt
+```
 
 
-## <p> Feature extraction </p>
-    cd your_folder
-    python Feature extractor/Semantic_feature_extraction.py
-    python Feature extractor/detail_extracttion.py
-    python Feature extractor/Structural_feature_extraction.py
-    python Feature extractor/Structural_feature_selection.py
-
-
-## <p> Feature decoding </p>
-    cd your_folder
-    python Feature decoding/Semantic_feature_decoding.py
-    python Feature decoding/Structural_feature_decoding.py
-    python Feature decoding/detail_decoding.py
+For training: 
     
-## <p> Image reconstruction </p>
+    ```
+    python train.py --config=YOUR_PATH_TO_YAML
+    ```
+Training procedure:
+    
 
-    cd your_folder
-    python Image reconstruction/Reconstruction.py
+For inference: 
 
-## <p> Reproduce the results of "High-resolution image reconstruction with latent diffusion models from human brain activity"(CVPR2023)  </p>
-After extracting and decoding the features, run the following code：
+   ``` python test.py # be sure to edit the test.py
+```
 
-    cd your_folder
-    python Reproduce Takagi's results/image_reconstruction.py
-## <p> Reproduce the results of "Reconstruction of Perceived Images from fMRI Patterns and Semantic Brain Exploration using Instance-Conditioned GANs" </p>
-After configuring the environment and codes provided by Ozcelik, run the following codes:
+Parameters and data structure: 
+There is a **detailed** explanation in [/cfg/default.py](https://github.com/ygritte723/coninv-MRI/blob/master/cfg/default.py).
 
-    cd your_folder
-    python Reproduce Ozcelik's results/extract_features.py
-    python Reproduce Ozcelik's results/train_regression.py
-    python Reproduce Ozcelik's results/reconstruct_images.py
 
 ## <p> Cite </p>
 Please cite our paper if you use this code in your own work:<br>
