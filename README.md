@@ -2,7 +2,10 @@
 This is the official code for the paper "Contrast-Invariant Self-supervised Segmentation for Quantitative Placental MRI"[**MICCAI PIPPI Workshop 2025**] ([https://arxiv.org/abs/2505.24739](https://arxiv.org/abs/2505.24739)) 
 
 ## <p align="center">  Schematic diagram  </p> ##
-![]([https://github.com/ygritte723/coninv-MRI](https://github.com/ygritte723/coninv-MRI/blob/master/images/semantic_mae_architecture.png)<br>
+<p float="left">
+  <img src="https://github.com/ygritte723/coninv-MRI/blob/master/images/semantic_mae_architecture.png" width="40%" />
+  <img src="https://github.com/ygritte723/coninv-MRI/blob/master/images/semantic_mpl_architecture.png" width="50%" />
+</p>
 - (a) Decoders are trained to fit fMRI with averaged CLIP text embeddings 𝑐, CLIP image feature 𝑍𝑖𝐶𝐿𝐼𝑃, and VQ-VAE latent feature 𝑧.
 - (b) The two-stage image reconstruction process. In stage 1, an initial reconstructed image is generated using the decoded CLIP text feature 𝑐 and VQ-VAE latent feature 𝑧. In stage 2, the decoded CLIP image feature is used as a constraint to iteratively adjust 𝑐 and 𝑧 until the final reconstruction result matches the original image in terms of both semantic and structure.
 
